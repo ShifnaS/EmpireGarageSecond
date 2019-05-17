@@ -1,8 +1,13 @@
 package info.apatrix.empiregarage.activity;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -15,6 +20,8 @@ import info.apatrix.empiregarage.R;
 import info.apatrix.empiregarage.api.APIService;
 import info.apatrix.empiregarage.api.ApiModule;
 import info.apatrix.empiregarage.model.ResponseLogin;
+import info.apatrix.empiregarage.model.ResponseP;
+import info.apatrix.empiregarage.model.ResponseProfile;
 import info.apatrix.empiregarage.utils.Constants;
 import info.apatrix.empiregarage.utils.NetworkUtil;
 import info.apatrix.empiregarage.utils.SharedPreferenceUtils;
@@ -35,8 +42,12 @@ public class ProfileActivity extends AppCompatActivity {
   EditText et_role;
   @BindView(R.id.status)
   EditText et_status;
+
   String auth;
   int userid;
+
+  String email = "";
+  String fullname = "";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +59,22 @@ public class ProfileActivity extends AppCompatActivity {
     auth= SharedPreferenceUtils.getInstance(getApplicationContext()).getStringValue(Constants.KEY_AUTH_TOKEN);
     userid=SharedPreferenceUtils.getInstance(getApplicationContext()).getIntValue(Constants.KEY_USER_ID);
     ButterKnife.bind(this);
+      Toolbar toolbar = findViewById(R.id.toolbar);
+      setSupportActionBar(toolbar);
+      getSupportActionBar().setDisplayShowTitleEnabled(false);
+      getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-    if(NetworkUtil.isOnline())
+      if(NetworkUtil.isOnline())
     {
-      //  getData();
-
+        getData();
+      _loginButton.setOnClickListener(new View.OnClickListener() {
+        public void onClick(View param1View) {
+          email = et_email.getText().toString();
+          fullname = et_name.getText().toString();
+          submitData();
+        }
+      });
 
     }
     else
@@ -61,33 +83,63 @@ public class ProfileActivity extends AppCompatActivity {
     }
   }
 
-    /*private void getData() {
+
+
+  private void submitData() {
+    final ProgressDialog progressDialog = new ProgressDialog(ProfileActivity.this, R.style.AppTheme_Dark_Dialog);
+    progressDialog.setIndeterminate(true);
+    progressDialog.setMessage("Authenticating...");
+    progressDialog.show();
+    ApiModule.getAPIService().updateProfile(userid, email, fullname, auth).enqueue(new Callback<ResponseProfile>() {
+      public void onFailure(Call<ResponseProfile> param1Call, Throwable param1Throwable) 
+      {
+        progressDialog.dismiss();
+        Log.e("MyTag", "requestFailed", param1Throwable);
+        Log.e("Failure ", param1Throwable.getMessage()); }
+
+      public void onResponse(Call<ResponseProfile> param1Call, Response<ResponseProfile> param1Response) 
+      { 
+        progressDialog.dismiss();
+        try {
+          if (param1Response.body().isStatus()) {
+          
+            Toast.makeText(getApplicationContext(), ""+param1Response.body().getMessage(), Toast.LENGTH_SHORT).show();
+           
+          }
+          else
+          {
+            Toast.makeText(getApplicationContext(), ""+param1Response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+          }
+          
+        } catch (Exception e) {
+          e.printStackTrace();
+          Log.e("Exception ", e.getMessage());
+        }  }
+    });
+  }
+  
+  
+
+   private void getData() {
 
         APIService service = ApiModule.getAPIService();
-        Call<ResponseLogin> call = service.changePassword(userid,auth);
-        call.enqueue(new Callback<ResponseLogin>() {
+        Call<ResponseProfile> call = service.getProfile(userid, auth);
+        call.enqueue(new Callback<ResponseProfile>() {
             @Override
-            public void onResponse(Call<ResponseLogin> call, Response<ResponseLogin> response) {
+            public void onResponse(Call<ResponseProfile> call, Response<ResponseProfile> response) {
 
                 try
                 {
-                    if(response.body()!=null&&response.isSuccessful())
-                    {
-                        if(response.body().getStatus())
-                        {
-                            Toast.makeText(ProfileActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-
-                            et_email.setText("");
-                            et_name.setText("");
-                            et_role.setText("");
-                            et_status.setText("");
-                        }
-
-                    }
-                    else
-                    {
-                        Toast.makeText(ProfileActivity.this, "Server Busy", Toast.LENGTH_SHORT).show();
-                    }
+                  
+                  ResponseP responseP = response.body().getResult();
+                  et_email.setText(responseP.getEmail());
+                  et_name.setText(responseP.getFullname());
+                  if (Integer.parseInt(responseP.getRole_id()) == 3)
+                    et_role.setText("Technician");
+                  if (Integer.parseInt(responseP.getStatus()) == 1) {
+                    et_status.setText("Active");
+                  }
 
 
                 }
@@ -102,7 +154,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ResponseLogin> call, Throwable t) {
+            public void onFailure(Call<ResponseProfile> call, Throwable t) {
                 //       progressBar.setVisibility(View.GONE);
 
                 Log.e("MyTag", "requestFailed", t);
@@ -110,5 +162,23 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
-    }*/
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        Intent i=new Intent(getApplicationContext(),HomeActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+        finish();
+        return super.onOptionsItemSelected(item);
+
+    }
 }

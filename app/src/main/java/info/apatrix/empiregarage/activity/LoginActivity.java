@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 import info.apatrix.empiregarage.R;
@@ -118,13 +120,17 @@ public class LoginActivity extends AppCompatActivity {
 
                     try
                     {
+                      Log.w("2.0 getResponse ",new Gson().toJson(response));
+
                       if(response.body()!=null&&response.isSuccessful())
                       {
                         Headers headerList =response.headers();
-                        String authToken= headerList.get("Authtoken");
+                       // String authToken= headerList.get("Authtoken");
                         if(response.body().getMessage().equals("Successfully Login Technician"))
                         {
+
                           Result obj=response.body().getResponse();
+                          String authToken= obj.getAuthToken();
                           String userId=obj.getUserId();
                           String roleId=obj.getRoleId();
                           int userid=Integer.parseInt(userId);
@@ -144,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
                       }
                       else
                       {
-                        onLoginFailed("Server Busy");
+                        onLoginFailed("Invalid User Name or Password");
                       }
 
 
@@ -217,4 +223,5 @@ public class LoginActivity extends AppCompatActivity {
 
     return valid;
   }
+
 }

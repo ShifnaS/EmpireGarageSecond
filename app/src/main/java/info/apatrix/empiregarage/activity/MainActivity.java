@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                String auth= SharedPreferenceUtils.getInstance(getApplicationContext()).getStringValue(Constants.KEY_AUTH_TOKEN);
+                String auth= SharedPreferenceUtils.getInstance(getApplicationContext()).getStringValue(Constants.KEY_AUTH_PASSWORD);
                 if(auth.equals(""))
                 {
                     Intent i = new Intent(MainActivity.this, LoginActivity.class);
@@ -50,4 +50,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }, SPLASH_TIME_OUT);
     }
+
 }

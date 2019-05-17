@@ -4,7 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -40,7 +42,11 @@ public class ForgetPasswordActivity extends AppCompatActivity {
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
     setContentView(R.layout.activity_forget_password);
     ButterKnife.bind(this);
-
+    Toolbar toolbar = findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+    getSupportActionBar().setDisplayShowTitleEnabled(false);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setDisplayShowHomeEnabled(true);
     auth= SharedPreferenceUtils.getInstance(getApplicationContext()).getStringValue(Constants.KEY_AUTH_TOKEN);
     userid=SharedPreferenceUtils.getInstance(getApplicationContext()).getIntValue(Constants.KEY_USER_ID);
 
@@ -80,66 +86,54 @@ public class ForgetPasswordActivity extends AppCompatActivity {
       progressDialog.setMessage("Sending...");
       progressDialog.show();
 
+      APIService service = ApiModule.getAPIService();
+      Call<ResponseLogin> call = service.forgetPassword(email,auth);
+      call.enqueue(new Callback<ResponseLogin>() {
+        @Override
+        public void onResponse(Call<ResponseLogin> call, Response<ResponseLogin> response) {
+          progressDialog.dismiss();
 
-      new android.os.Handler().postDelayed(
-              new Runnable() {
-                public void run() {
-                  // On complete call either onLoginSuccess or onLoginFailed
-
-
-                  APIService service = ApiModule.getAPIService();
-                  Call<ResponseLogin> call = service.forgetPassword(email,auth);
-                  call.enqueue(new Callback<ResponseLogin>() {
-                    @Override
-                    public void onResponse(Call<ResponseLogin> call, Response<ResponseLogin> response) {
-                      progressDialog.dismiss();
-
-                      try
-                      {
-                        if(response.body()!=null&&response.isSuccessful())
-                        {
-                          if(response.body().getStatus())
-                          {
-                            Toast.makeText(ForgetPasswordActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                            onSuccess();
-                          }
-                          else
-                          {
-                            onFailed("Failed to Change ");
-                          }
-                        }
-                        else
-                        {
-                          onFailed("Server Busy");
-                        }
+          try
+          {
+            if(response.body()!=null&&response.isSuccessful())
+            {
+              if(response.body().getStatus())
+              {
+                Toast.makeText(ForgetPasswordActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                onSuccess();
+              }
+              else
+              {
+                onFailed("Failed to Change ");
+              }
+            }
+            else
+            {
+              onFailed("Server Busy");
+            }
 
 
-                      }
-                      catch (Exception e)
-                      {
-                        e.printStackTrace();
-                        Log.e("Exception ",e.getMessage());
+          }
+          catch (Exception e)
+          {
+            e.printStackTrace();
+            Log.e("Exception ",e.getMessage());
 
 
-                      }
+          }
 
-                    }
+        }
 
-                    @Override
-                    public void onFailure(Call<ResponseLogin> call, Throwable t) {
-                      //       progressBar.setVisibility(View.GONE);
+        @Override
+        public void onFailure(Call<ResponseLogin> call, Throwable t) {
+          //       progressBar.setVisibility(View.GONE);
 
-                      Log.e("MyTag", "requestFailed", t);
-                      Log.e("Failure ",t.getMessage());
+          Log.e("MyTag", "requestFailed", t);
+          Log.e("Failure ",t.getMessage());
 
-                    }
-                  });
+        }
+      });
 
-
-
-
-                }
-              }, 3000);
     }
   }
   public void onSuccess() {
@@ -152,5 +146,24 @@ public class ForgetPasswordActivity extends AppCompatActivity {
   public void onFailed(String msg) {
     Toast.makeText(getBaseContext(), msg, Toast.LENGTH_LONG).show();
     _loginButton.setEnabled(true);
+  }
+  @Override
+  public void onBackPressed() {
+    Intent intent = new Intent(this, LoginActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    startActivity(intent);
+    finish();
+    super.onBackPressed();
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+    Intent i=new Intent(getApplicationContext(),HomeActivity.class);
+    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    startActivity(i);
+    finish();
+    return super.onOptionsItemSelected(item);
+
   }
 }

@@ -1,5 +1,7 @@
 package info.apatrix.empiregarage.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class IssuedInventerayList {
   private String defect_name;
   
@@ -48,10 +50,15 @@ public class IssuedInventerayList {
   public void setReqDefect_mat_qt(String paramString) { this.reqDefect_mat_qty = paramString; }
   
   public void setReqDefect_status(String paramString) { this.reqDefect_status = paramString; }
+
+  public String getReqDefect_mat_qty() {
+    return reqDefect_mat_qty;
+  }
+
+  public void setReqDefect_mat_qty(String reqDefect_mat_qty) {
+    this.reqDefect_mat_qty = reqDefect_mat_qty;
+  }
+
+
 }
 
-
-/* Location:              C:\Users\pc\Downloads\student_project\dex2jar-2.0\dex2jar-2.0\classes-dex2jar.jar!\info\apatrix\empiregarage\model\IssuedInventerayList.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       1.0.0
- */

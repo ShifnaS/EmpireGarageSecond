@@ -17,7 +17,18 @@ public class Responses {
   
   @SerializedName("IssuedInventoryLists")
   private ArrayList<IssuedInventerayList> issued_inventory_lists;
-  
+
+  @SerializedName("IssuedInventoryServicePackagesLists")
+  private ArrayList<IssuedInventoryPackList> IssuedInventoryServicePackagesLists;
+
+  public ArrayList<IssuedInventoryPackList> getIssuedInventoryServicePackagesLists() {
+    return IssuedInventoryServicePackagesLists;
+  }
+
+  public void setIssuedInventoryServicePackagesLists(ArrayList<IssuedInventoryPackList> issuedInventoryServicePackagesLists) {
+    IssuedInventoryServicePackagesLists = issuedInventoryServicePackagesLists;
+  }
+
   public Customer getCustomer() { return this.Customer; }
   
   public String getId() { return this.id; }

@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -45,6 +47,14 @@ public class ChangePassword extends AppCompatActivity {
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
     setContentView(R.layout.activity_change_password);
+
+
+    Toolbar toolbar = findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+    getSupportActionBar().setDisplayShowTitleEnabled(false);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setDisplayShowHomeEnabled(true);
+
     ButterKnife.bind(this);
     _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -203,5 +213,24 @@ public class ChangePassword extends AppCompatActivity {
       _input_password_retype.setError(null);
     }
     return valid;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+    Intent i=new Intent(getApplicationContext(),HomeActivity.class);
+    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    startActivity(i);
+    finish();
+    return super.onOptionsItemSelected(item);
+
+  }
+  @Override
+  public void onBackPressed() {
+    Intent intent = new Intent(this, HomeActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    startActivity(intent);
+    finish();
+    super.onBackPressed();
   }
 }

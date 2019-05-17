@@ -63,6 +63,7 @@ public class RequestedFragment extends Fragment implements SwipeRefreshLayout.On
             try {
               if (param1Response.body().getMessage().equals("successfully fetched")) {
                 carList = param1Response.body().getResponse();
+                Log.e("11111","Size "+carList.size());
                 mAdapter = new CarAdapter(carList, getActivity());
                 recyclerView.setAdapter(mAdapter);
               }

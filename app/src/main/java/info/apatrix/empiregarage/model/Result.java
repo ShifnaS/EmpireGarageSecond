@@ -1,14 +1,18 @@
 package info.apatrix.empiregarage.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Result {
   private String actionType;
   
   private String advisorId;
   
   private String advisorName;
-  
+
+  @SerializedName("Authtoken")
   private String authToken;
-  
+//  private String authToken;
+
   private String car;
   
   private String customer;

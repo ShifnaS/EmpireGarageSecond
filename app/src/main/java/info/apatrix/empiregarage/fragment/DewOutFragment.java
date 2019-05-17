@@ -53,20 +53,17 @@ public class DewOutFragment extends Fragment implements SwipeRefreshLayout.OnRef
     private void prepareCarData(String paramString) {
         mSwipeRefreshLayout.setRefreshing(false);
         progressDialog.show();
-        ApiModule.getAPIService().getDewOutCarList(this.rollId,userId,token).enqueue(new Callback<ResultList>() {
+        ApiModule.getAPIService().getDewOutCarList(rollId,userId,token).enqueue(new Callback<ResultList>() {
             public void onFailure(Call<ResultList> param1Call, Throwable param1Throwable) { Log.e("MyTag", "requestFailed", param1Throwable);
                 Log.e("Failure ", param1Throwable.getMessage()); }
 
             public void onResponse(Call<ResultList> param1Call, Response<ResultList> param1Response) { mSwipeRefreshLayout.setRefreshing(false);
                 progressDialog.dismiss();
                 try {
-             /* FragmentActivity fragmentActivity = getActivity();
-              StringBuilder stringBuilder = new StringBuilder();
-              stringBuilder.append("hiii ");
-              stringBuilder.append(((ResultList)param1Response.body()).getMessage());
-              Toast.makeText(fragmentActivity, stringBuilder.toString(), Toast.LENGTH_SHORT).show();*/
+                    Log.e("Failure ", "response "+param1Response.body().getMessage());
+
                     if (param1Response.body().getMessage().equals("successfully fetched")) {
-                        carList = ((ResultList)param1Response.body()).getResponse();
+                        carList = param1Response.body().getResponse();
                         mAdapter = new CarAdapter(carList, getActivity());
                         recyclerView.setAdapter(mAdapter);
                     }
@@ -82,7 +79,7 @@ public class DewOutFragment extends Fragment implements SwipeRefreshLayout.OnRef
         });
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(),recyclerView, new RecyclerTouchListener.ClickListener() {
             public void onClick(View param1View, int param1Int) {
-                Result result = (Result)carList.get(param1Int);
+                Result result = carList.get(param1Int);
                 SharedPreferenceUtils.getInstance(getContext()).setStringValue("jobId", result.getId());
                 SharedPreferenceUtils.getInstance(getContext()).setStringValue("actiontype", result.getActionType());
                 Intent intent = new Intent(getActivity(), JobDetailActivity.class);
@@ -127,7 +124,7 @@ public class DewOutFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
         });
         if (NetworkUtil.isOnline().booleanValue()) {
-            prepareCarData(this.service);
+            prepareCarData(service);
         }
         else
         {
@@ -139,7 +136,7 @@ public class DewOutFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     public void onRefresh() {
         if (NetworkUtil.isOnline().booleanValue()) {
-            prepareCarData(this.service);
+            prepareCarData(service);
         }
         else
         {

@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import info.apatrix.empiregarage.activity.JobDetailActivity;
 import info.apatrix.empiregarage.adapter.CarAdapter;
 import info.apatrix.empiregarage.adapter.RecyclerTouchListener;
 import info.apatrix.empiregarage.api.ApiModule;
@@ -60,14 +62,15 @@ public class OpenedFragment extends Fragment implements SwipeRefreshLayout.OnRef
             mSwipeRefreshLayout.setRefreshing(false);
             progressDialog.dismiss();
             try {
-              /*FragmentActivity fragmentActivity = OpenedFragment.this.getActivity();
+              /*FragmentActivity fragmentActivity = getActivity();
               StringBuilder stringBuilder = new StringBuilder();
               stringBuilder.append(((ResultList)).getMessage());
               Toast.makeText(fragmentActivity, stringBuilder.toString(), Toast.LENGTH_SHORT).show();*/
+              Log.e("1111111","Result "+param1Response.body().getMessage());
               if (param1Response.body().getMessage().equals("successfully fetched")) {
-                carList = ((ResultList)param1Response.body()).getResponse();
-                mAdapter = new CarAdapter(OpenedFragment.this.carList, OpenedFragment.this.getActivity());
-                recyclerView.setAdapter(OpenedFragment.this.mAdapter);
+                carList = param1Response.body().getResponse();
+                mAdapter = new CarAdapter(carList, getActivity());
+                recyclerView.setAdapter(mAdapter);
                 return;
               }
               else
@@ -86,12 +89,12 @@ public class OpenedFragment extends Fragment implements SwipeRefreshLayout.OnRef
     recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new RecyclerTouchListener.ClickListener() {
             public void onClick(View param1View, int param1Int) {
               Result result = carList.get(param1Int);
-              SharedPreferenceUtils.getInstance(OpenedFragment.this.getContext()).setStringValue("jobId", result.getId());
-              SharedPreferenceUtils.getInstance(OpenedFragment.this.getContext()).setStringValue("actiontype", result.getActionType());
-              Intent intent = new Intent(OpenedFragment.this.getActivity(), info.apatrix.empiregarage.activity.JobDetailActivity.class);
+              SharedPreferenceUtils.getInstance(getContext()).setStringValue("jobId", result.getId());
+              SharedPreferenceUtils.getInstance(getContext()).setStringValue("actiontype", result.getActionType());
+              Intent intent = new Intent(getActivity(), JobDetailActivity.class);
               intent.putExtra("flag", 1);
               intent.putExtra("data", "Opened Services");
-              OpenedFragment.this.startActivity(intent);
+              startActivity(intent);
             }
             
             public void onLongClick(View param1View, int param1Int) {}
@@ -105,6 +108,9 @@ public class OpenedFragment extends Fragment implements SwipeRefreshLayout.OnRef
     rollId = SharedPreferenceUtils.getInstance(getContext()).getIntValue("roleId");
     userId = SharedPreferenceUtils.getInstance(getContext()).getIntValue("userId");
     token = SharedPreferenceUtils.getInstance(getContext()).getStringValue("authToken");
+    Log.e("111111","rollid "+rollId);
+    Log.e("111111","userId "+userId);
+    Log.e("111111","token "+token);
     progressDialog = new ProgressDialog(getContext(), R.style.AppTheme_Dark_Dialog);
     progressDialog.setIndeterminate(true);
     progressDialog.setMessage("Fetching...");
@@ -155,7 +161,4 @@ public class OpenedFragment extends Fragment implements SwipeRefreshLayout.OnRef
 }
 
 
-/* Location:              C:\Users\pc\Downloads\student_project\dex2jar-2.0\dex2jar-2.0\classes-dex2jar.jar!\info\apatrix\empiregarage\fragment\OpenedFragment.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       1.0.0
- */
+

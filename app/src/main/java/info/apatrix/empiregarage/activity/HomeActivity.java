@@ -42,6 +42,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.apatrix.empiregarage.fragment.CompletedFragment;
 import info.apatrix.empiregarage.fragment.DewOutFragment;
+import info.apatrix.empiregarage.fragment.OpenFragment;
 import info.apatrix.empiregarage.fragment.OpenedFragment;
 import info.apatrix.empiregarage.fragment.RequestedFragment;
 import info.apatrix.empiregarage.model.Result;
@@ -106,9 +107,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     _opened.setImageResource(R.drawable.ic_opened_services_active);
     loadHomeFragment();
 
-
-
-
   }
 
   private void loadHomeFragment() {
@@ -117,13 +115,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     fragmentTransaction.replace(R.id.output, openedFragment);
     fragmentTransaction.commit();
   }
-
   @Override
   public void onClick(View v) {
     switch (v.getId()) {
 
       case R.id.opened:
-        // do your code
         service="opened";
         topToolBar.setTitle("Opened Services");
         tv_service.setText("Opened Services");
@@ -131,18 +127,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         _requested.setImageResource(R.drawable.ic_requested_inventory);
         _drewout.setImageResource(R.drawable.ic_drew_out_inventory);
         _completed.setImageResource(R.drawable.ic_completed_services);
+
         if(NetworkUtil.isOnline())
         {
-          OpenedFragment openedFragment = new OpenedFragment();
+            //Toast.makeText(this, "hii", Toast.LENGTH_SHORT).show();
+
+          OpenedFragment requestedFragment = new OpenedFragment();
           FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-          fragmentTransaction.replace(R.id.opened, openedFragment);
+          fragmentTransaction.replace(R.id.output, requestedFragment);
           fragmentTransaction.commit();
-          return;
         }
         else
         {
           Toast.makeText(getApplicationContext(), "Please check your network", Toast.LENGTH_SHORT).show();
         }
+
         break;
 
       case R.id.requested:
@@ -214,7 +213,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         break;
 
       case R.id.mymenu:
-        Toast.makeText(this, "fghfghfh", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "fghfghfh", Toast.LENGTH_SHORT).show();
         setOption();
         break;
       default:
@@ -252,7 +251,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             break;
           case "Logout" :
             // showBottomSheetDialog();
+            String auth=SharedPreferenceUtils.getInstance(getApplicationContext()).getStringValue(Constants.KEY_AUTH_TOKEN);
             SharedPreferenceUtils.getInstance(getApplicationContext()).clear();
+            SharedPreferenceUtils.getInstance(getApplicationContext()).setStringValue(Constants.KEY_AUTH_TOKEN,auth);
             i=new Intent(getApplicationContext(),LoginActivity.class);
             startActivity(i);
             finish();
