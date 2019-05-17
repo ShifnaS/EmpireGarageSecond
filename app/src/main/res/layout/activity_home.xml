@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="fill_parent"
+        android:layout_height="200.0dip"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                app:navigationIcon="@mipmap/ic_launcher"
+                app:title="Opened Services"
+                app:titleTextAppearance="@style/Toolbar.TitleText" />
+
+            <ImageView
+                android:id="@+id/mymenu"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15.0dip"
+                android:layout_weight="0.1"
+                android:gravity="end"
+                android:src="@drawable/ic_more_vert_black_24dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="100.0dip"
+            android:layout_marginLeft="20.0dip"
+            android:layout_marginTop="45.0dip"
+            android:layout_marginRight="20.0dip"
+            android:background="@drawable/toolbarback"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/opened"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:src="@drawable/ic_opened_services" />
+
+            <ImageView
+                android:id="@+id/requested"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:src="@drawable/ic_requested_inventory" />
+
+            <ImageView
+                android:id="@+id/drewout"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:src="@drawable/ic_drew_out_inventory" />
+
+            <ImageView
+                android:id="@+id/completed"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:src="@drawable/ic_completed_services" />
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/colorBack"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20.0dip">
+
+            <TextView
+                android:id="@+id/service"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="Opened Service"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20.0sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="end"
+                android:text="Sort"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/filter"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:src="@drawable/ic_filter_list_black_24dp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/output"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+    </LinearLayout>
+</LinearLayout>

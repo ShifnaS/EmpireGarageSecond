@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="fill_parent"
+        android:layout_height="180.0dip"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:titleTextAppearance="@style/Toolbar.TitleText">
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Completed Service Detail"
+                android:textColor="@color/colorText"
+                android:textSize="20.0sp"
+                android:textStyle="bold" />
+        </android.support.v7.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="100.0dip"
+            android:layout_marginLeft="20.0dip"
+            android:layout_marginTop="20.0dip"
+            android:layout_marginRight="20.0dip"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="1.0"
+                android:background="@drawable/toolbarback">
+
+                <TextView
+                    android:id="@+id/id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_weight="1.0"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18.0sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_weight="1.6">
+
+                <ImageView
+                    android:layout_width="40.0dip"
+                    android:layout_height="40.0dip"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_cars" />
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="30.0dip"
+                    android:layout_gravity="center"
+                    android:layout_weight="1.0"
+                    android:text="@string/customer_car_detail"
+                    android:textColor="@color/colorText"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/start"
+                    android:layout_width="0.0dip"
+                    android:layout_height="35.0dip"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:background="@color/colorText"
+                    android:text="Start Service"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/colorBack"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_marginLeft="20.0dip"
+                android:layout_marginTop="15.0dip"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:text="Name"
+                    android:textColor="@color/colorText2" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0dip"
+                    android:layout_marginRight="20.0dip"
+                    android:background="@color/colorDivider" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_marginLeft="20.0dip"
+                android:layout_marginTop="15.0dip"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:text="Mobile"
+                    android:textColor="@color/colorText2" />
+
+                <TextView
+                    android:id="@+id/mobile"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0dip"
+                    android:layout_marginRight="20.0dip"
+                    android:background="@color/colorDivider" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_marginLeft="20.0dip"
+                android:layout_marginTop="15.0dip"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:text="Email"
+                    android:textColor="@color/colorText2" />
+
+                <TextView
+                    android:id="@+id/email"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0dip"
+                    android:layout_marginRight="20.0dip"
+                    android:background="@color/colorDivider" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_marginLeft="20.0dip"
+                android:layout_marginTop="15.0dip"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:text="Car Make"
+                    android:textColor="@color/colorText2" />
+
+                <TextView
+                    android:id="@+id/make"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0dip"
+                    android:layout_marginRight="20.0dip"
+                    android:background="@color/colorDivider" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_marginLeft="20.0dip"
+                android:layout_marginTop="15.0dip"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:text="Car Model"
+                    android:textColor="@color/colorText2" />
+
+                <TextView
+                    android:id="@+id/model"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0dip"
+                    android:layout_marginRight="20.0dip"
+                    android:background="@color/colorDivider" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_marginLeft="20.0dip"
+                android:layout_marginTop="15.0dip"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:text="Plate Number"
+                    android:textColor="@color/colorText2" />
+
+                <TextView
+                    android:id="@+id/plateNo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0dip"
+                    android:layout_marginRight="20.0dip"
+                    android:background="@color/colorDivider" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_marginLeft="20.0dip"
+                android:layout_marginTop="15.0dip"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:text="Color"
+                    android:textColor="@color/colorText2" />
+
+                <TextView
+                    android:id="@+id/color"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0dip"
+                    android:layout_marginRight="20.0dip"
+                    android:background="@color/colorDivider" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_marginLeft="20.0dip"
+                android:layout_marginTop="15.0dip"
+                android:layout_weight="1.0"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:text="Current Mileage"
+                    android:textColor="@color/colorText2" />
+
+                <TextView
+                    android:id="@+id/mileage"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0dip"
+                    android:layout_marginRight="20.0dip"
+                    android:background="@color/colorDivider" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_marginTop="15.0dip"
+                android:layout_weight="1.0"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40.0dip"
+                    android:layout_height="40.0dip"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20.0dip"
+                    android:layout_marginTop="7.0dip"
+                    android:src="@drawable/ic_cars" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Service Packages"
+                    android:textColor="@color/colorText"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20.0dip"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginRight="20.0dip"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:text="Name"
+                        android:textColor="@color/colorText2" />
+
+                    <TextView
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:gravity="end"
+                        android:text="Price"
+                        android:textColor="@color/colorText2" />
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/service"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_marginTop="15.0dip"
+                android:layout_weight="1.0"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40.0dip"
+                    android:layout_height="40.0dip"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20.0dip"
+                    android:layout_marginTop="7.0dip"
+                    android:src="@drawable/ic_cars" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Report Defect"
+                    android:textColor="@color/colorText"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20.0dip"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginRight="20.0dip"
+                android:layout_marginBottom="20.0dip"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0">
+
+                    <TextView
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:text="Name"
+                        android:textColor="@color/colorText2" />
+
+                    <TextView
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:gravity="end"
+                        android:text="Remark"
+                        android:textColor="@color/colorText2" />
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/defects"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/isssued_inventory"
+                android:layout_width="fill_parent"
+                android:layout_height="0.0dip"
+                android:layout_marginTop="15.0dip"
+                android:layout_weight="1.0"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40.0dip"
+                    android:layout_height="40.0dip"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20.0dip"
+                    android:layout_marginTop="7.0dip"
+                    android:src="@drawable/ic_cars" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Issued Inventory List"
+                    android:textColor="@color/colorText"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20.0dip"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginRight="20.0dip"
+                android:layout_marginBottom="20.0dip"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/inventory"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

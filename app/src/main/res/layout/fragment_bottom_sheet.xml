@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:paddingTop="8.0dip" android:paddingBottom="8.0dip" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:orientation="vertical" android:paddingLeft="10.0dip" android:paddingTop="8.0dip" android:paddingRight="10.0dip" android:paddingBottom="8.0dip" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:foreground="?selectableItemBackground">
+        <ImageView android:layout_gravity="center" android:layout_width="50.0dip" android:layout_height="50.0dip" android:src="@drawable/ic_expand_more_black_24dp" />
+        <TextView android:textSize="20.0sp" android:textStyle="bold" android:textColor="@color/colorPrimary" android:layout_gravity="center_vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="SORT BY" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:paddingLeft="10.0dip" android:paddingTop="8.0dip" android:paddingRight="10.0dip" android:paddingBottom="8.0dip" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:foreground="?selectableItemBackground">
+        <TextView android:textSize="16.0sp" android:textColor="#ff737373" android:layout_gravity="center_vertical" android:id="@+id/jobId" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Job Id" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:paddingLeft="@dimen/activity_margin" android:paddingTop="8.0dip" android:paddingRight="@dimen/activity_margin" android:paddingBottom="8.0dip" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:foreground="?selectableItemBackground">
+        <TextView android:textSize="16.0sp" android:textColor="#ff737373" android:layout_gravity="center_vertical" android:id="@+id/service" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Service" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:paddingLeft="@dimen/activity_margin" android:paddingTop="8.0dip" android:paddingRight="@dimen/activity_margin" android:paddingBottom="8.0dip" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:foreground="?selectableItemBackground">
+        <TextView android:textSize="16.0sp" android:textColor="#ff737373" android:layout_gravity="center_vertical" android:id="@+id/advisor" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Advisor" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:paddingLeft="@dimen/activity_margin" android:paddingTop="8.0dip" android:paddingRight="@dimen/activity_margin" android:paddingBottom="8.0dip" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:foreground="?selectableItemBackground">
+        <TextView android:textSize="16.0sp" android:textColor="#ff737373" android:layout_gravity="center_vertical" android:id="@+id/technician" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Technician" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:paddingLeft="10.0dip" android:paddingTop="8.0dip" android:paddingRight="10.0dip" android:paddingBottom="8.0dip" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:foreground="?selectableItemBackground">
+        <TextView android:textSize="16.0sp" android:textColor="#ff737373" android:layout_gravity="center_vertical" android:id="@+id/customer" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Customer" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:paddingLeft="10.0dip" android:paddingTop="8.0dip" android:paddingRight="10.0dip" android:paddingBottom="8.0dip" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:foreground="?selectableItemBackground">
+        <TextView android:textSize="16.0sp" android:textColor="#ff737373" android:layout_gravity="center_vertical" android:id="@+id/car" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Car" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:paddingLeft="10.0dip" android:paddingTop="8.0dip" android:paddingRight="10.0dip" android:paddingBottom="8.0dip" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:foreground="?selectableItemBackground">
+        <TextView android:textSize="16.0sp" android:textColor="#ff737373" android:layout_gravity="center_vertical" android:id="@+id/plateNo" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Plate No" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:paddingLeft="10.0dip" android:paddingTop="8.0dip" android:paddingRight="10.0dip" android:paddingBottom="8.0dip" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:foreground="?selectableItemBackground">
+        <TextView android:textSize="16.0sp" android:textColor="#ff737373" android:layout_gravity="center_vertical" android:id="@+id/starttime" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Started Date" />
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:paddingLeft="10.0dip" android:paddingTop="8.0dip" android:paddingRight="10.0dip" android:paddingBottom="8.0dip" android:clickable="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:foreground="?selectableItemBackground">
+        <TextView android:textSize="16.0sp" android:textColor="#ff737373" android:layout_gravity="center_vertical" android:id="@+id/status" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="Status" />
+    </LinearLayout>
+</LinearLayout>
