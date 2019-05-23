@@ -427,12 +427,13 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/report_defect"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20.0dip"
                 android:layout_marginTop="10.0dip"
                 android:layout_marginRight="20.0dip"
-                android:layout_marginBottom="20.0dip"
+                android:layout_marginBottom="0.0dip"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -521,6 +522,7 @@
                     android:src="@drawable/ic_cars" />
 
                 <TextView
+                    android:id="@+id/task"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

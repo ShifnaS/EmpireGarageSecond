@@ -14,9 +14,22 @@ public class Responses {
   private ArrayList<ServicePackages> ServicePackages;
   
   private String id;
-  
+
+
+
   @SerializedName("IssuedInventoryLists")
   private ArrayList<IssuedInventerayList> issued_inventory_lists;
+  
+  @SerializedName("ServicePackagesTask")
+  private ArrayList<ServicePackagesTask> servicePackagesTask;
+
+  public ArrayList<ServicePackagesTask> getServicePackagesTask() {
+    return servicePackagesTask;
+  }
+
+  public void setServicePackagesTask(ArrayList<ServicePackagesTask> servicePackagesTask) {
+    this.servicePackagesTask = servicePackagesTask;
+  }
 
   @SerializedName("IssuedInventoryServicePackagesLists")
   private ArrayList<IssuedInventoryPackList> IssuedInventoryServicePackagesLists;

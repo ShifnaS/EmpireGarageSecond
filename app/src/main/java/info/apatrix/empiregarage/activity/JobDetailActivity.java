@@ -29,6 +29,7 @@ import butterknife.ButterKnife;
 import info.apatrix.empiregarage.R;
 import info.apatrix.empiregarage.adapter.IssuedInventoryServicePackAdapter;
 import info.apatrix.empiregarage.adapter.ReportDefectAdapter;
+import info.apatrix.empiregarage.adapter.ServicePackTaskAdapter;
 import info.apatrix.empiregarage.adapter.ServicePackageAdapter;
 import info.apatrix.empiregarage.api.APIService;
 import info.apatrix.empiregarage.api.ApiModule;
@@ -39,6 +40,7 @@ import info.apatrix.empiregarage.model.ReportDefects;
 import info.apatrix.empiregarage.model.ResponseService;
 import info.apatrix.empiregarage.model.Responses;
 import info.apatrix.empiregarage.model.ServicePackages;
+import info.apatrix.empiregarage.model.ServicePackagesTask;
 import info.apatrix.empiregarage.utils.Constants;
 import info.apatrix.empiregarage.utils.NetworkUtil;
 import info.apatrix.empiregarage.utils.SharedPreferenceUtils;
@@ -97,15 +99,20 @@ public class JobDetailActivity extends AppCompatActivity {
 
   RecyclerView recyclerView_inventory_service_pack;
 
-
+  @BindView(R.id.report_defect)
+  LinearLayout report_defect;
   @BindView(R.id.isssued_inventory)
   LinearLayout isssued_inventory;
   @BindView(R.id.isssued_inventory_service_pack)
   LinearLayout isssued_inventory_service_pack;
 
+  @BindView(R.id.task)
+  TextView tv_task;
   ArrayList<ReportDefects> reportDefects = new ArrayList();
 
   ArrayList<ServicePackages> servicePackages = new ArrayList();
+  ArrayList<ServicePackagesTask> servicePackagesTasks = new ArrayList();
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -130,7 +137,9 @@ public class JobDetailActivity extends AppCompatActivity {
     if (flag == 1)
     {
       isssued_inventory.setVisibility(View.GONE);
-      isssued_inventory_service_pack.setVisibility(View.GONE);
+     // isssued_inventory_service_pack.setVisibility(View.GONE);
+      tv_task.setText("Service Package Task");
+
     }
       else
     {
@@ -217,6 +226,8 @@ public class JobDetailActivity extends AppCompatActivity {
           intent.putExtra("Engine", ((ReportDefects)reportDefects.get(3)).getRemarks());
           intent.putExtra("Steering", ((ReportDefects)reportDefects.get(4)).getRemarks());
           intent.putExtra("Tyres", ((ReportDefects)reportDefects.get(5)).getRemarks());
+          intent.putExtra("servicePackTask", servicePackagesTasks);
+
           startActivity(intent);
         }
       });
@@ -303,26 +314,75 @@ public class JobDetailActivity extends AppCompatActivity {
             recyclerView.setAdapter(mAdapter);
 
             reportDefects = responses.getReportDefects();
-            nAdapter = new ReportDefectAdapter(reportDefects, getApplicationContext(), 0);
-            recyclerView_defect.setAdapter(nAdapter);
+            if(reportDefects.size()==0)
+            {
+              report_defect.setVisibility(View.GONE);
+            }
+            else
+            {
+              nAdapter = new ReportDefectAdapter(reportDefects, getApplicationContext(), 0);
+              recyclerView_defect.setAdapter(nAdapter);
+            }
 
 
-            issuedInventoryServicePackagesLists=responses.getIssuedInventoryServicePackagesLists();
-            Log.e("1111111 ",""+issuedInventoryServicePackagesLists.toString());
-            requestAdapter = new IssuedInventoryServicePackAdapter(issuedInventoryServicePackagesLists, getApplicationContext());
-            recyclerView_inventory_service_pack.setAdapter(requestAdapter);
+            if(flag==1)
+            {
+
+              servicePackagesTasks=responses.getServicePackagesTask();
+              if(servicePackagesTasks.size()==0)
+              {
+                isssued_inventory_service_pack.setVisibility(View.GONE);
+              }
+              else
+              {
+                ServicePackTaskAdapter requestAdapter = new ServicePackTaskAdapter(servicePackagesTasks, getApplicationContext());
+                recyclerView_inventory_service_pack.setAdapter(requestAdapter);
+              }
+
+            }
+            else
+            {
+
+              issuedInventoryServicePackagesLists=responses.getIssuedInventoryServicePackagesLists();
+              if(issuedInventoryServicePackagesLists.size()==0)
+              {
+                isssued_inventory_service_pack.setVisibility(View.GONE);
+              }
+              else {
+                Log.e("1111111 ", "" + issuedInventoryServicePackagesLists.toString());
+                requestAdapter = new IssuedInventoryServicePackAdapter(issuedInventoryServicePackagesLists, getApplicationContext());
+                recyclerView_inventory_service_pack.setAdapter(requestAdapter);
+              }
+            }
+
 
             if (flag != 1) {
               if (flag == 2) {
                 inventory = responses.getIssued_inventory_lists();
-                pAdapter = new RequestedInventoryAdapter(inventory, getApplicationContext(), 0);
-                recyclerView_inventory.setAdapter(pAdapter);
+                if(inventory.size()==0)
+                {
+                  isssued_inventory.setVisibility(View.GONE);
+                }
+                else
+                {
+                  pAdapter = new RequestedInventoryAdapter(inventory, getApplicationContext(), 0);
+                  recyclerView_inventory.setAdapter(pAdapter);
+                }
+
               }
               else
               {
                 inventory = responses.getIssued_inventory_lists();
-                pAdapter = new RequestedInventoryAdapter(inventory, getApplicationContext(), 1);
-                recyclerView_inventory.setAdapter(pAdapter);
+
+                if(inventory.size()==0)
+                {
+                  isssued_inventory.setVisibility(View.GONE);
+                }
+                else
+                {
+                  pAdapter = new RequestedInventoryAdapter(inventory, getApplicationContext(), 1);
+                  recyclerView_inventory.setAdapter(pAdapter);
+                }
 
               }
               }
@@ -336,6 +396,7 @@ public class JobDetailActivity extends AppCompatActivity {
 
 
   private void startOpenService() {
+    Log.e("111111"," servicePackTask "+servicePackagesTasks.size());
     progressDialog.show();
     APIService aPIService = ApiModule.getAPIService();
     String str = job_id;
@@ -356,6 +417,8 @@ public class JobDetailActivity extends AppCompatActivity {
           intent.putExtra("Engine", ((ReportDefects)reportDefects.get(3)).getRemarks());
           intent.putExtra("Steering", ((ReportDefects)reportDefects.get(4)).getRemarks());
           intent.putExtra("Tyres", ((ReportDefects)reportDefects.get(5)).getRemarks());
+          intent.putExtra("servicePackTask", servicePackagesTasks);
+
           startActivity(intent);
         }
       } catch (Exception e) {

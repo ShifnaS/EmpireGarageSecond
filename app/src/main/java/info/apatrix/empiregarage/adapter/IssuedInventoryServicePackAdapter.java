@@ -35,7 +35,7 @@ public class IssuedInventoryServicePackAdapter  extends RecyclerView.Adapter<Iss
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         IssuedInventoryPackList issuedInventerayList = carList.get(i);
-        Log.e("111111","List "+i+": "+issuedInventerayList.toString());
+       // Log.e("111111","List "+i+": "+issuedInventerayList.toString());
 
         Log.e("111111","Task name "+issuedInventerayList.getTask_name());
         Log.e("111111","Status "+issuedInventerayList.getReqtask_request_approved());

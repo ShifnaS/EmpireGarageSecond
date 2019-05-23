@@ -1,77 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="fill_parent"
-        android:layout_height="180.0dip"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
-            app:navigationIcon="@drawable/ic_arrow_back"
-            app:title="Request Inventory"
-            app:titleTextAppearance="@style/Toolbar.TitleText" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="100.0dip"
-            android:layout_marginLeft="20.0dip"
-            android:layout_marginTop="20.0dip"
-            android:layout_marginRight="20.0dip"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0.0dip"
-                android:layout_weight="1.0"
-                android:background="@drawable/toolbarback">
-
-                <TextView
-                    android:id="@+id/id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10.0dip"
-                    android:layout_weight="1.0"
-                    android:text="Gold Maintanence Package (Job ID #34)"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18.0sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0.0dip"
-                android:layout_weight="1.6">
-
-                <ImageView
-                    android:layout_width="40.0dip"
-                    android:layout_height="40.0dip"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_cars" />
-
-                <TextView
-                    android:layout_width="0.0dip"
-                    android:layout_height="30.0dip"
-                    android:layout_gravity="center"
-                    android:layout_weight="1.0"
-                    android:text="@string/report"
-                    android:textColor="@color/colorText" />
-            </LinearLayout>
-        </LinearLayout>
-    </android.support.design.widget.AppBarLayout>
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:fillViewport="true">
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="fill_parent"
+            android:layout_height="180.0dip"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                app:navigationIcon="@drawable/ic_arrow_back"
+                app:title="Request Inventory"
+                app:titleTextAppearance="@style/Toolbar.TitleText" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="100.0dip"
+                android:layout_marginLeft="20.0dip"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginRight="20.0dip"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.0"
+                    android:background="@drawable/toolbarback">
+
+                    <TextView
+                        android:id="@+id/id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10.0dip"
+                        android:layout_weight="1.0"
+                        android:text="Gold Maintanence Package (Job ID #34)"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18.0sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="1.6">
+
+                    <ImageView
+                        android:layout_width="40.0dip"
+                        android:layout_height="40.0dip"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_cars" />
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:layout_width="0.0dip"
+                        android:layout_height="30.0dip"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.0"
+                        android:text="@string/report"
+                        android:textColor="@color/colorText" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.design.widget.AppBarLayout>
+
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -147,6 +149,7 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="0.0dip"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="1.0"
                     android:weightSum="7.0">
 
@@ -200,7 +203,9 @@
 
                 <LinearLayout
                     android:layout_width="fill_parent"
+
                     android:layout_height="0.0dip"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="1.0"
                     android:weightSum="7.0">
 
@@ -255,13 +260,15 @@
 
                 <LinearLayout
                     android:layout_width="fill_parent"
+
                     android:layout_height="0.0dip"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="1.0"
                     android:weightSum="7.0">
 
                     <TextView
                         android:layout_width="0.0dip"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1.0"
                         android:text="Suspension"
                         android:textColor="@color/colorPrimary" />
@@ -310,7 +317,9 @@
 
                 <LinearLayout
                     android:layout_width="fill_parent"
+
                     android:layout_height="0.0dip"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="1.0"
                     android:weightSum="7.0">
 
@@ -365,7 +374,9 @@
 
                 <LinearLayout
                     android:layout_width="fill_parent"
+
                     android:layout_height="0.0dip"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="1.0"
                     android:weightSum="7.0">
 
@@ -420,7 +431,9 @@
 
                 <LinearLayout
                     android:layout_width="fill_parent"
+
                     android:layout_height="0.0dip"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="1.0"
                     android:weightSum="7.0">
 
@@ -468,10 +481,45 @@
                         android:textColor="@color/colorPrimary" />
                 </LinearLayout>
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1.0dip"
-                    android:background="@color/colorDivider" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40.0dip"
+                    android:layout_height="40.0dip"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20.0dip"
+                    android:layout_marginTop="7.0dip"
+                    android:src="@drawable/ic_cars" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Service Packages"
+                    android:textColor="@color/colorText"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
 
                 <Button
                     android:id="@+id/requsest"
@@ -481,7 +529,10 @@
                     android:background="@drawable/taskback"
                     android:text="Request Materials"
                     android:textColor="@color/colorText" />
+
+
             </LinearLayout>
+
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -26,6 +30,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import info.apatrix.empiregarage.R;
+import info.apatrix.empiregarage.adapter.ServicePackTaskRequestAdapter;
 import info.apatrix.empiregarage.api.APIService;
 import info.apatrix.empiregarage.api.ApiModule;
 import info.apatrix.empiregarage.model.ReportDefects;
@@ -33,6 +38,7 @@ import info.apatrix.empiregarage.model.ResponseLogin;
 import info.apatrix.empiregarage.model.ResponseService;
 import info.apatrix.empiregarage.model.Result;
 import info.apatrix.empiregarage.model.ResultList;
+import info.apatrix.empiregarage.model.ServicePackagesTask;
 import info.apatrix.empiregarage.utils.Constants;
 import info.apatrix.empiregarage.utils.SharedPreferenceUtils;
 import retrofit2.Call;
@@ -67,8 +73,6 @@ public class StartActivity extends AppCompatActivity {
   int quantity_other = 0;
 
   ArrayList<Result> resultList = new ArrayList();
-
-
   List<String> spinnerArray = new ArrayList();
 
 
@@ -89,7 +93,8 @@ public class StartActivity extends AppCompatActivity {
   TextView tv_suspension;
   @BindView(R.id.tyres)
   TextView tv_tyres;
-
+  @BindView(R.id.recyclerView)
+  RecyclerView recyclerView;
 
   ///status
 
@@ -140,6 +145,7 @@ public class StartActivity extends AppCompatActivity {
   TextView tv_id;
   @BindView(R.id.requsest)
   Button tv_requsest;
+  ArrayList<ServicePackagesTask> servicePackagesTasks = new ArrayList();
 
 
   @Override
@@ -149,9 +155,9 @@ public class StartActivity extends AppCompatActivity {
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
     setContentView(R.layout.activity_start);
+    rollId= SharedPreferenceUtils.getInstance(getApplicationContext()).getIntValue(Constants.KEY_ROLE_ID);
     job_id= SharedPreferenceUtils.getInstance(getApplicationContext()).getStringValue(Constants.KEY_JOB_ID);
     auth_token=SharedPreferenceUtils.getInstance(getApplicationContext()).getStringValue(Constants.KEY_AUTH_TOKEN);
-    rollId= SharedPreferenceUtils.getInstance(getApplicationContext()).getIntValue(Constants.KEY_ROLE_ID);
     userId=SharedPreferenceUtils.getInstance(getApplicationContext()).getIntValue(Constants.KEY_USER_ID);
     ButterKnife.bind(this);
     Toolbar toolbar = findViewById(R.id.toolbar);
@@ -164,6 +170,8 @@ public class StartActivity extends AppCompatActivity {
 
     tv_id.setText("Gold Maintanence Package (Job ID #"+job_id+")");
     Intent intent = getIntent();
+    servicePackagesTasks= (ArrayList<ServicePackagesTask>) intent.getSerializableExtra("servicePackTask");
+    //Toast.makeText(this, "size "+servicePackagesTasks.size(), Toast.LENGTH_SHORT).show();
     this.other = intent.getStringExtra("Others");
     this.battery = intent.getStringExtra("Battery");
     this.suspension = intent.getStringExtra("Suspension");
@@ -177,6 +185,14 @@ public class StartActivity extends AppCompatActivity {
     this.tv_steering.setText(this.steering);
     this.tv_tyres.setText(this.tyre);
     new LongOperation().execute("");
+
+    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+    recyclerView.setLayoutManager(linearLayoutManager);
+    recyclerView.setItemAnimator(new DefaultItemAnimator());
+    recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+
+    ServicePackTaskRequestAdapter requestAdapter = new ServicePackTaskRequestAdapter(servicePackagesTasks, getApplicationContext());
+    recyclerView.setAdapter(requestAdapter);
 
     tv_requsest.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -198,48 +214,48 @@ public class StartActivity extends AppCompatActivity {
     {
       tv_other_material.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> param2AdapterView, View param2View, int param2Int, long param2Long) { if (param2Int != 0) {
-          Result result = (Result)StartActivity.this.resultList.get(param2Int - 1);
-          StartActivity.this.material_id_other = result.getMeterials_id();
+          Result result = (Result)resultList.get(param2Int - 1);
+          material_id_other = result.getMeterials_id();
         }  }
 
         public void onNothingSelected(AdapterView<?> param2AdapterView) {}
       });
       tv_battery_material.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> param2AdapterView, View param2View, int param2Int, long param2Long) { if (param2Int != 0) {
-          Result result = (Result)StartActivity.this.resultList.get(param2Int - 1);
-          StartActivity.this.material_id_other = result.getMeterials_id();
+          Result result = (Result)resultList.get(param2Int - 1);
+          material_id_other = result.getMeterials_id();
         }  }
 
         public void onNothingSelected(AdapterView<?> param2AdapterView) {}
       });
       tv_suspension_material.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> param2AdapterView, View param2View, int param2Int, long param2Long) { if (param2Int != 0) {
-          Result result = (Result)StartActivity.this.resultList.get(param2Int - 1);
-          StartActivity.this.material_id_other = result.getMeterials_id();
+          Result result = (Result)resultList.get(param2Int - 1);
+          material_id_other = result.getMeterials_id();
         }  }
 
         public void onNothingSelected(AdapterView<?> param2AdapterView) {}
       });
       tv_engine_material.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> param2AdapterView, View param2View, int param2Int, long param2Long) { if (param2Int != 0) {
-          Result result = (Result)StartActivity.this.resultList.get(param2Int - 1);
-          StartActivity.this.material_id_other = result.getMeterials_id();
+          Result result = (Result)resultList.get(param2Int - 1);
+          material_id_other = result.getMeterials_id();
         }  }
 
         public void onNothingSelected(AdapterView<?> param2AdapterView) {}
       });
       tv_steering_material.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> param2AdapterView, View param2View, int param2Int, long param2Long) { if (param2Int != 0) {
-          Result result = (Result)StartActivity.this.resultList.get(param2Int - 1);
-          StartActivity.this.material_id_other = result.getMeterials_id();
+          Result result = (Result)resultList.get(param2Int - 1);
+          material_id_other = result.getMeterials_id();
         }  }
 
         public void onNothingSelected(AdapterView<?> param2AdapterView) {}
       });
       tv_tyres_material.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         public void onItemSelected(AdapterView<?> param2AdapterView, View param2View, int param2Int, long param2Long) { if (param2Int != 0) {
-          Result result = (Result)StartActivity.this.resultList.get(param2Int - 1);
-          StartActivity.this.material_id_other = result.getMeterials_id();
+          Result result = (Result)resultList.get(param2Int - 1);
+          material_id_other = result.getMeterials_id();
         }  }
 
         public void onNothingSelected(AdapterView<?> param2AdapterView) {}
@@ -249,11 +265,11 @@ public class StartActivity extends AppCompatActivity {
     protected void onPreExecute() {
       StartActivity startActivity = StartActivity.this;
       startActivity.progressDialog = new ProgressDialog(startActivity, 2131755016);
-      StartActivity.this.progressDialog.setIndeterminate(true);
-      StartActivity.this.progressDialog.setMessage("Fetching...");
-      StartActivity.this.progressDialog.setCancelable(false);
-      StartActivity.this.progressDialog.setCanceledOnTouchOutside(false);
-      StartActivity.this.progressDialog.show();
+      progressDialog.setIndeterminate(true);
+      progressDialog.setMessage("Fetching...");
+      progressDialog.setCancelable(false);
+      progressDialog.setCanceledOnTouchOutside(false);
+      progressDialog.show();
     }
   }
 
@@ -266,32 +282,32 @@ public class StartActivity extends AppCompatActivity {
         Log.e("Failure ", param1Throwable.getMessage()); }
 
       public void onResponse(Call<ResultList> param1Call, Response<ResultList> param1Response) { try {
-        StartActivity.this.progressDialog.cancel();
+        progressDialog.cancel();
         boolean bool = ((ResultList)param1Response.body()).getMessage().equals("successfully fetched");
         byte b = 0;
         if (bool) {
-          StartActivity.this.resultList = ((ResultList)param1Response.body()).getResponse();
-          StartActivity.this.spinnerArray.add("Select");
-          while (b < StartActivity.this.resultList.size()) {
-            List list = StartActivity.this.spinnerArray;
+          resultList = ((ResultList)param1Response.body()).getResponse();
+          spinnerArray.add("Select");
+          while (b < resultList.size()) {
+            List list = spinnerArray;
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(((Result)StartActivity.this.resultList.get(b)).getMeterials_name());
+            stringBuilder.append(resultList.get(b).getMeterials_name());
             stringBuilder.append(" ");
-            stringBuilder.append(((Result)StartActivity.this.resultList.get(b)).getMeterials_type_name());
+            stringBuilder.append(resultList.get(b).getMeterials_type_name());
             list.add(stringBuilder.toString());
             b++;
           }
           ArrayAdapter arrayAdapter = new ArrayAdapter(StartActivity.this, android.R.layout.simple_spinner_item, spinnerArray);
           arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-          StartActivity.this.tv_other_material.setAdapter(arrayAdapter);
-          StartActivity.this.tv_battery_material.setAdapter(arrayAdapter);
-          StartActivity.this.tv_suspension_material.setAdapter(arrayAdapter);
-          StartActivity.this.tv_engine_material.setAdapter(arrayAdapter);
-          StartActivity.this.tv_steering_material.setAdapter(arrayAdapter);
-          StartActivity.this.tv_tyres_material.setAdapter(arrayAdapter);
+          tv_other_material.setAdapter(arrayAdapter);
+          tv_battery_material.setAdapter(arrayAdapter);
+          tv_suspension_material.setAdapter(arrayAdapter);
+          tv_engine_material.setAdapter(arrayAdapter);
+          tv_steering_material.setAdapter(arrayAdapter);
+          tv_tyres_material.setAdapter(arrayAdapter);
           return;
         }
-        Toast.makeText(StartActivity.this.getApplicationContext(), "No data in this category", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "No data in this category", Toast.LENGTH_LONG).show();
         return;
       } catch (Exception e) {
         e.printStackTrace();
@@ -438,12 +454,12 @@ public class StartActivity extends AppCompatActivity {
           Toast.makeText(startActivity, stringBuilder.toString(), Toast.LENGTH_LONG).show();
           if (((ResponseLogin)param1Response.body()).getStatus()) {
             Toast.makeText(StartActivity.this, ((ResponseLogin)param1Response.body()).getMessage(), Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(StartActivity.this.getApplicationContext(), HomeActivity.class);
-            StartActivity.this.startActivity(intent);
-            StartActivity.this.finish();
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+            finish();
             return;
           }
-          Toast.makeText(StartActivity.this.getApplicationContext(), "No data in this category", Toast.LENGTH_LONG).show();
+          Toast.makeText(getApplicationContext(), "No data in this category", Toast.LENGTH_LONG).show();
           return;
         } catch (Exception e) {
           e.printStackTrace();
@@ -455,8 +471,8 @@ public class StartActivity extends AppCompatActivity {
   class Other implements AdapterView.OnItemSelectedListener {
 
     public void onItemSelected(AdapterView<?> param1AdapterView, View param1View, int param1Int, long param1Long) { if (param1Int != 0) {
-      Result result = (Result)StartActivity.this.resultList.get(param1Int - 1);
-      StartActivity.this.material_id_other = result.getMeterials_id();
+      Result result = (Result)resultList.get(param1Int - 1);
+      material_id_other = result.getMeterials_id();
     }  }
 
     public void onNothingSelected(AdapterView<?> param1AdapterView) {}
