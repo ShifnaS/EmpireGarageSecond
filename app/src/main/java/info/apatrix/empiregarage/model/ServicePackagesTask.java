@@ -10,6 +10,9 @@ public class ServicePackagesTask implements Serializable {
     private String task_id;
     private String task_name;
 
+    String material_id;
+    String quantity;
+
     public String getPackage_id() {
         return package_id;
     }
@@ -40,5 +43,32 @@ public class ServicePackagesTask implements Serializable {
 
     public void setTask_name(String task_name) {
         this.task_name = task_name;
+    }
+
+
+    public String getMaterial_id() {
+        return material_id;
+    }
+
+    public void setMaterial_id(String material_id) {
+        this.material_id = material_id;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "ServicePackagesTask{" +
+                ", material_id='" + material_id + '\'' +
+                ", quantity='" + quantity + '\'' +
+                ", pack_id='" + package_id + '\'' +
+                ", task_id='" + task_id + '\'' +
+                '}';
     }
 }

@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -33,19 +34,21 @@ import info.apatrix.empiregarage.R;
 import info.apatrix.empiregarage.adapter.ServicePackTaskRequestAdapter;
 import info.apatrix.empiregarage.api.APIService;
 import info.apatrix.empiregarage.api.ApiModule;
-import info.apatrix.empiregarage.model.ReportDefects;
+import info.apatrix.empiregarage.db.DBManager;
+import info.apatrix.empiregarage.db.DatabaseHelper;
 import info.apatrix.empiregarage.model.ResponseLogin;
-import info.apatrix.empiregarage.model.ResponseService;
 import info.apatrix.empiregarage.model.Result;
 import info.apatrix.empiregarage.model.ResultList;
 import info.apatrix.empiregarage.model.ServicePackagesTask;
 import info.apatrix.empiregarage.utils.Constants;
+import info.apatrix.empiregarage.utils.OnItemSelectListner;
+import info.apatrix.empiregarage.utils.RecyclerTouchListener;
 import info.apatrix.empiregarage.utils.SharedPreferenceUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity implements OnItemSelectListner {
   String job_id="",auth_token,other="", battery="",suspension="",engine="",steering="",tyre="";
   int rollId,userId;
   int tyre_quantity = 0;
@@ -74,7 +77,7 @@ public class StartActivity extends AppCompatActivity {
 
   ArrayList<Result> resultList = new ArrayList();
   List<String> spinnerArray = new ArrayList();
-
+  String quantity="";
 
   int steering_quantity = 0;
 
@@ -146,15 +149,27 @@ public class StartActivity extends AppCompatActivity {
   @BindView(R.id.requsest)
   Button tv_requsest;
   ArrayList<ServicePackagesTask> servicePackagesTasks = new ArrayList();
+  ArrayList<ServicePackagesTask> servicePackagesTask = new ArrayList();
+  ServicePackTaskRequestAdapter requestAdapter;
+  private DatabaseHelper db;
+  ServicePackagesTask  obj,obj1;
+  private DBManager dbManager;
+  JsonArray ja=new JsonArray();
+  JsonObject jo;
 
 
-  @Override
+    @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     requestWindowFeature(Window.FEATURE_NO_TITLE);
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
     setContentView(R.layout.activity_start);
+   // db = new DatabaseHelper(this);
+    dbManager=new DBManager(this);
+    dbManager.open();
+
+
     rollId= SharedPreferenceUtils.getInstance(getApplicationContext()).getIntValue(Constants.KEY_ROLE_ID);
     job_id= SharedPreferenceUtils.getInstance(getApplicationContext()).getStringValue(Constants.KEY_JOB_ID);
     auth_token=SharedPreferenceUtils.getInstance(getApplicationContext()).getStringValue(Constants.KEY_AUTH_TOKEN);
@@ -191,18 +206,68 @@ public class StartActivity extends AppCompatActivity {
     recyclerView.setItemAnimator(new DefaultItemAnimator());
     recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
-    ServicePackTaskRequestAdapter requestAdapter = new ServicePackTaskRequestAdapter(servicePackagesTasks, getApplicationContext());
+    requestAdapter = new ServicePackTaskRequestAdapter(servicePackagesTasks, getApplicationContext(),this);
     recyclerView.setAdapter(requestAdapter);
+
+
 
     tv_requsest.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        requestMaterial();
+
+
+        // obj=new ServicePackagesTask();
+         int size=servicePackagesTasks.size();
+         for(int i=0;i<size;i++)
+         {
+           jo=new JsonObject();
+
+           obj1=servicePackagesTasks.get(i);
+             String pack_id=obj1.getPackage_id();
+             String task_id=obj1.getTask_id();
+             String materialId= dbManager.getMaterialID(task_id);
+             String quantity= dbManager.getQuantity(task_id);
+             jo.addProperty("package_id",pack_id);
+             jo.addProperty("task_id",task_id);
+             jo.addProperty("material_id",materialId);
+             jo.addProperty("quantity",quantity);
+             ja.add(jo);
+
+         }
+          //  servicePackagesTask=requestAdapter.getData();
+        Log.e("111111","size "+ja.size());
+
+
+
+          requestMaterial(jo);
       }
     });
   }
 
-  private class LongOperation extends AsyncTask<String, Void, String> {
+  @Override
+  public void onclick(ServicePackagesTask list) {
+   // servicePackagesTask.add(list);
+   // Toast.makeText(this, "data "+servicePackagesTask.size(), Toast.LENGTH_SHORT).show();
+
+
+  }
+
+    @Override
+    public void getMaterialID(String value) {
+    //  obj=new ServicePackagesTask();
+      // obj.setMaterial_id(value);
+       // servicePackagesTask.add(obj);
+    }
+
+    @Override
+    public void getQuantity(String value) {
+       // obj.setQuantity(value);///adding to object
+        //servicePackagesTask.add(obj);////adding to array list
+
+    }
+
+
+    private class LongOperation extends AsyncTask<String, Void, String> {
     private LongOperation() {}
 
     protected String doInBackground(String... param1VarArgs)
@@ -289,12 +354,12 @@ public class StartActivity extends AppCompatActivity {
           resultList = ((ResultList)param1Response.body()).getResponse();
           spinnerArray.add("Select");
           while (b < resultList.size()) {
-            List list = spinnerArray;
+          //  List list = spinnerArray;
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(resultList.get(b).getMeterials_name());
             stringBuilder.append(" ");
             stringBuilder.append(resultList.get(b).getMeterials_type_name());
-            list.add(stringBuilder.toString());
+            spinnerArray.add(stringBuilder.toString());
             b++;
           }
           ArrayAdapter arrayAdapter = new ArrayAdapter(StartActivity.this, android.R.layout.simple_spinner_item, spinnerArray);
@@ -308,18 +373,16 @@ public class StartActivity extends AppCompatActivity {
           return;
         }
         Toast.makeText(getApplicationContext(), "No data in this category", Toast.LENGTH_LONG).show();
-        return;
       } catch (Exception e) {
         e.printStackTrace();
         Log.e("Exception ", e.getMessage());
-        return;
       }  }
     });
   }
 
 
 
-  private void requestMaterial() {
+  private void requestMaterial(JsonObject jo) {
 
     final ProgressDialog progressDialog = new ProgressDialog(StartActivity.this);
     progressDialog.setIndeterminate(true);
@@ -436,10 +499,13 @@ public class StartActivity extends AppCompatActivity {
       jsonObject1.addProperty("quantity", Integer.valueOf(this.tyre_quantity));
       jsonObject.add("tyres", jsonObject1);
     }
+    jsonObject.add("packages",jo);
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append("json object");
     stringBuilder.append(jsonObject);
     Log.e("777777 ", stringBuilder.toString());
+
+
     ApiModule.getAPIService().request_material(jsonObject, this.auth_token).enqueue(new Callback<ResponseLogin>() {
       public void onFailure(Call<ResponseLogin> param1Call, Throwable param1Throwable) { progressDialog.dismiss();
         Log.e("MyTag", "requestFailed", param1Throwable);
@@ -447,6 +513,8 @@ public class StartActivity extends AppCompatActivity {
 
       public void onResponse(Call<ResponseLogin> param1Call, Response<ResponseLogin> param1Response) { progressDialog.dismiss();
         try {
+          dbManager.delete();
+
           StartActivity startActivity = StartActivity.this;
           StringBuilder stringBuilder = new StringBuilder();
           stringBuilder.append("hiii ");
@@ -457,14 +525,13 @@ public class StartActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(intent);
             finish();
-            return;
           }
           Toast.makeText(getApplicationContext(), "No data in this category", Toast.LENGTH_LONG).show();
-          return;
         } catch (Exception e) {
+          dbManager.delete();
+
           e.printStackTrace();
           Log.e("Exception ", e.getMessage());
-          return;
         }  }
     });
   }
@@ -495,4 +562,11 @@ public class StartActivity extends AppCompatActivity {
     return super.onOptionsItemSelected(item);
 
   }
+
+  public interface MyListner
+  {
+    void onClick(JsonObject jsonObject);
+  }
+
+
 }
