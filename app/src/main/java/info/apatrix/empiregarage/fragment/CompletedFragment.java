@@ -59,11 +59,7 @@ public class CompletedFragment extends Fragment implements SwipeRefreshLayout.On
           public void onResponse(Call<ResultList> param1Call, Response<ResultList> param1Response) { mSwipeRefreshLayout.setRefreshing(false);
             progressDialog.dismiss();
             try {
-            /*  FragmentActivity fragmentActivity = getActivity();
-              StringBuilder stringBuilder = new StringBuilder();
-              stringBuilder.append("hiii ");
-              stringBuilder.append(((ResultList)param1Response.body()).getMessage());
-              Toast.makeText(fragmentActivity, stringBuilder.toString(), Toast.LENGTH_SHORT).show();*/
+
               if (param1Response.body().getMessage().equals("successfully fetched")) {
                 carList = param1Response.body().getResponse();
                 mAdapter = new CarAdapter(carList, getActivity());

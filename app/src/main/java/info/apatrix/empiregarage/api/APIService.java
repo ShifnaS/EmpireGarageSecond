@@ -2,9 +2,11 @@ package info.apatrix.empiregarage.api;
 
 import com.google.gson.JsonObject;
 import info.apatrix.empiregarage.model.ResponseLogin;
+import info.apatrix.empiregarage.model.ResponseNotification;
 import info.apatrix.empiregarage.model.ResponseProfile;
 import info.apatrix.empiregarage.model.ResponseService;
 import info.apatrix.empiregarage.model.ResultList;
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -29,7 +31,16 @@ public interface APIService {
   @FormUrlEncoded
   @POST("Technician_services/completed_services")
   Call<ResultList> getClosedCarList(@Field("roleId") int paramInt1, @Field("userId") int paramInt2, @Header("Authtoken") String paramString);
-  
+
+  @FormUrlEncoded
+  @POST("Settings/notifications")
+  Call<ResponseNotification> getNotification(@Field("userId") int paramInt2, @Header("Authtoken") String paramString);
+
+
+    @FormUrlEncoded
+    @POST("Settings/notifications")
+    Observable<ResponseNotification> getRandomNotification(@Field("userId") int userId, @Header("Authtoken") String token);
+
   @FormUrlEncoded
   @POST("Technician_services/complete_service_view")
   Call<ResponseService> getCompletedServiceDetail(@Field("job_id") String paramString1, @Header("Authtoken") String paramString2);

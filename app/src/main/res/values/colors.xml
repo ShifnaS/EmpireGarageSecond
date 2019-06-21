@@ -7,5 +7,6 @@
     <color name="colorBack">#eef3fa</color>
     <color name="colorDivider">#D3D3D3</color>
     <color name="colorText2">#FF706D6D</color>
+    <color name="shadow">#66000000</color>
 
 </resources>

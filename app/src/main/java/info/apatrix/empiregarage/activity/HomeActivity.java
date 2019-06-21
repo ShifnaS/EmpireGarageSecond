@@ -14,6 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -28,15 +29,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.nex3z.notificationbadge.NotificationBadge;
+
 import butterknife.OnClick;
 import info.apatrix.empiregarage.R;
 import info.apatrix.empiregarage.adapter.CarAdapter;
+import info.apatrix.empiregarage.adapter.NotificationAdapter;
 import info.apatrix.empiregarage.adapter.RecyclerTouchListener;
 import info.apatrix.empiregarage.api.APIService;
+import info.apatrix.empiregarage.api.APIUrl;
 import info.apatrix.empiregarage.api.ApiModule;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,14 +53,24 @@ import info.apatrix.empiregarage.fragment.DewOutFragment;
 import info.apatrix.empiregarage.fragment.OpenFragment;
 import info.apatrix.empiregarage.fragment.OpenedFragment;
 import info.apatrix.empiregarage.fragment.RequestedFragment;
+import info.apatrix.empiregarage.model.ResponseNotification;
 import info.apatrix.empiregarage.model.Result;
 import info.apatrix.empiregarage.model.ResultList;
 import info.apatrix.empiregarage.utils.Constants;
 import info.apatrix.empiregarage.utils.NetworkUtil;
 import info.apatrix.empiregarage.utils.SharedPreferenceUtils;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
@@ -71,13 +89,24 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
   ImageView filter;
   @BindView(R.id.mymenu)
   ImageView menus;
+  @BindView(R.id.bell)
+  ImageView notification;
   @BindView(R.id.toolbar)
   Toolbar topToolBar;
+
+  @BindView(R.id.badge)
+  NotificationBadge badge;
 
   String service="";
   int rollId,userId;
   String token="";
   ProgressDialog progressDialog;
+
+
+  Retrofit retrofit;
+  APIService apiService;
+  Disposable disposable;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -106,6 +135,45 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     service="opened";
     _opened.setImageResource(R.drawable.ic_opened_services_active);
     loadHomeFragment();
+
+
+    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+    interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+    OkHttpClient client = new OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .build();
+
+    Gson gson = new GsonBuilder()
+            .setLenient()
+            .create();
+
+
+    retrofit = new Retrofit.Builder()
+            .baseUrl(APIUrl.BASE_URL)
+            .client(client)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build();
+
+    apiService = retrofit.create(APIService.class);
+
+
+    disposable = Observable.interval(1000, 5000,
+            TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::callJokesEndpoint, this::onError);
+
+
+    notification.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent intent=new Intent(getApplicationContext(),NotificationActivity.class);
+        startActivity(intent);
+      }
+    });
 
   }
 
@@ -241,6 +309,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(HomeActivity.this,"You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
         switch (item.getTitle().toString())
         {
+
           case "Profile" :
             i=new Intent(getApplicationContext(),ProfileActivity.class);
             startActivity(i);
@@ -267,17 +336,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     popup.show();//showing popup menu
   }
-
-  public void showBottomSheetDialog() {
-    View view = getLayoutInflater().inflate(R.layout.fragment_bottom_sheet, null);
-
-    BottomSheetDialog dialog = new BottomSheetDialog(this);
-    dialog.setContentView(view);
-    dialog.show();
-
-
-  }
-
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.menu, menu);
@@ -286,9 +344,77 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
   }
 
-
   @Override
   public void onRefresh() {
 
   }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    if (disposable.isDisposed()) {
+      disposable = Observable.interval(1000, 5000,
+              TimeUnit.MILLISECONDS)
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(this::callJokesEndpoint, this::onError);
+    }
+  }
+
+  private void callJokesEndpoint(Long aLong) {
+
+
+    Observable<ResponseNotification> observable = apiService.getRandomNotification(userId,token);
+    observable.subscribeOn(Schedulers.newThread()).
+            observeOn(AndroidSchedulers.mainThread())
+            .map(result -> result.getCount())
+            .subscribe(this::handleResults, this::handleError);
+  }
+
+  private void onError(Throwable throwable) {
+    Toast.makeText(this, "OnError in Observable Timer",
+            Toast.LENGTH_LONG).show();
+  }
+
+
+  private void handleResults(String data) {
+
+
+    if (!TextUtils.isEmpty(data)) {
+     // Toast.makeText(this, "hiii "+data, Toast.LENGTH_SHORT).show();
+      int count=Integer.parseInt(data);
+      if(count>0) {
+          badge.setNumber(count);
+      }
+      else
+      {
+          badge.setNumber(0);
+
+      }
+     // textView.setText(joke);
+
+
+    } else {
+      Toast.makeText(this, "NO RESULTS FOUND",
+              Toast.LENGTH_LONG).show();
+    }
+  }
+
+  private void handleError(Throwable t) {
+
+    //Add your error here.
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+
+    disposable.dispose();
+  }
+
+
+
+
+
+
 }

@@ -26,6 +26,25 @@
                 app:titleTextAppearance="@style/Toolbar.TitleText" />
 
             <ImageView
+                android:id="@+id/bell"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15.0dip"
+                android:layout_weight="0.1"
+                android:gravity="end"
+                android:src="@drawable/ic_notifications" />
+
+            <com.nex3z.notificationbadge.NotificationBadge
+                android:id="@+id/badge"
+                android:layout_width="23dp"
+                android:layout_height="25dp"
+                android:layout_toRightOf="@id/bell"
+                android:layout_alignTop="@id/bell"
+                android:layout_marginLeft="-20dp"
+                android:layout_marginTop="5dp"
+                app:nbBackground="@drawable/badge_bg_with_shadow"
+                app:nbMaxTextLength="2"/>
+            <ImageView
                 android:id="@+id/mymenu"
                 android:layout_width="0.0dip"
                 android:layout_height="wrap_content"
