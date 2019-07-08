@@ -215,7 +215,6 @@ public class StartActivity extends AppCompatActivity implements OnItemSelectList
       @Override
       public void onClick(View v) {
 
-
         // obj=new ServicePackagesTask();
          int size=servicePackagesTasks.size();
          for(int i=0;i<size;i++)
@@ -239,7 +238,7 @@ public class StartActivity extends AppCompatActivity implements OnItemSelectList
 
 
 
-          requestMaterial(jo);
+          requestMaterial(ja);
       }
     });
   }
@@ -382,7 +381,7 @@ public class StartActivity extends AppCompatActivity implements OnItemSelectList
 
 
 
-  private void requestMaterial(JsonObject jo) {
+  private void requestMaterial(JsonArray jo) {
 
     final ProgressDialog progressDialog = new ProgressDialog(StartActivity.this);
     progressDialog.setIndeterminate(true);
@@ -517,7 +516,7 @@ public class StartActivity extends AppCompatActivity implements OnItemSelectList
 
           StartActivity startActivity = StartActivity.this;
           StringBuilder stringBuilder = new StringBuilder();
-          stringBuilder.append("hiii ");
+         // stringBuilder.append("hiii ");
           stringBuilder.append(((ResponseLogin)param1Response.body()).getMessage());
           Toast.makeText(startActivity, stringBuilder.toString(), Toast.LENGTH_LONG).show();
           if (((ResponseLogin)param1Response.body()).getStatus()) {

@@ -306,7 +306,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
       public boolean onMenuItemClick(MenuItem item) {
         Intent i;
-        Toast.makeText(HomeActivity.this,"You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+       // Toast.makeText(HomeActivity.this,"You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
         switch (item.getTitle().toString())
         {
 

@@ -2,25 +2,37 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="80dp"
     android:orientation="vertical"
     android:padding="15dp"
     android:gravity="center_horizontal|center_vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp"
-        android:id="@+id/title"
-        android:text="NotificationTitle"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:id="@+id/description"
-        android:text="Description"/>
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+
+       <TextView
+           android:layout_width="0dp"
+           android:layout_weight="2"
+
+           android:layout_height="wrap_content"
+           android:textStyle="bold"
+           android:textColor="@color/colorPrimary"
+           android:textSize="18sp"
+           android:id="@+id/title"
+           android:text="NotificationTitle"/>
+       <TextView
+           android:layout_width="0dp"
+           android:layout_weight="1"
+           android:layout_height="wrap_content"
+           android:textStyle="bold"
+           android:textColor="@color/colorPrimary"
+           android:textSize="18sp"
+           android:id="@+id/job_id"
+           android:text="#45"/>
+   </LinearLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

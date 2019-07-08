@@ -35,7 +35,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         Notification notification=notificationList.get(i);
         myViewHolder.tv_title.setText(notification.getNotifi_message());
-        myViewHolder.tv_des.setText(notification.getDescription());
+        myViewHolder.tv_jobId.setText("#"+notification.getJob_id());
         myViewHolder.tv_date.setText(notification.getDatetime());
     }
 
@@ -45,12 +45,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_date,tv_des,tv_title;
+        TextView tv_date,tv_jobId,tv_title;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_title=itemView.findViewById(R.id.title);
-            tv_des=itemView.findViewById(R.id.description);
+            tv_jobId=itemView.findViewById(R.id.job_id);
             tv_date=itemView.findViewById(R.id.date);
 
         }
